@@ -16,11 +16,39 @@ export const GlobalProvider = ({children}) => {
             .catch((err) => {
                 setError(err.response.data.message)
             })
+        // It need to render after adding an income
+        getIncomes()
     }
+
+    const getIncomes = async () => {
+        const response = await axios.get(`${BASE_URL}get-incomes`)
+        setIncomes(response.data)
+        console.log(response.data)
+    }
+
+    const deleteIncome = async (id) => {
+        const res = await axios.delete(`${BASE_URL}delete-income/${id}`)
+        // and render after deleting an income
+        getIncomes()
+    }
+
+    const totalIncome = () => {
+        let totalIncome = 0;
+        incomes.forEach((income) => {
+            totalIncome = totalIncome + income.amount
+        })
+        return totalIncome;
+    }
+
+    // console.log(totalIncome())
 
     return(
         <GlobalContext.Provider value={{
-            addIncome
+            addIncome,
+            getIncomes,
+            incomes,
+            deleteIncome,
+            totalIncome
         }}>
             {children}
         </GlobalContext.Provider>
