@@ -38,12 +38,12 @@ function App() {
   return(
     <AppStyled bg={bg} className="App">
       {orbMemo}
-      <MainLayout>
+      <ResponsiveLayout>
         <Navigation active={active} setActive={setActive} />
         <main>
           {displayData()}
         </main>
-      </MainLayout>
+      </ResponsiveLayout>
     </AppStyled>
   );
 }
@@ -64,5 +64,20 @@ const AppStyled = styled.div`
   }
 `;
 
+/** new grid responsive on MainLayout **/
+const ResponsiveLayout = styled(MainLayout)`
+  display: grid;
+  grid-template-columns: 374px 1fr; /* desktop */
+  gap: 2rem;
+
+  @media (max-width: 1200px) {
+    /* laptops más estrechos */
+    grid-template-columns: 250px 1fr;
+  }
+  @media (max-width: 992px) {
+    /* tablets: apila todo */
+    grid-template-columns: 1fr;
+  }
+`;
 
 export default App;

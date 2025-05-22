@@ -66,6 +66,21 @@ const ChartStyled = styled.div`
     padding: 1rem;
     border-radius: 20px;
     height: 100%;
+    @media (max-width: 768px){
+        padding: 1rem;
+        padding-top: 2rem;
+        height: auto;
+        width: 100%;
+        padding: 1rem;
+    }
+    @media (max-width: 1000px){
+        padding-top: 2rem;
+        height: 90%;
+    }
+    @media (max-width: 1200px){
+        height: 100%;
+        padding-top: 5rem;
+    }    
 `;
 
 export default Chart

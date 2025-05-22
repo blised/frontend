@@ -81,7 +81,7 @@ export const GlobalProvider = ({children}) => {
             return new Date(b.createdAt) - new Date(a.createdAt)
         })
 
-        return history.slice(0,4)
+        return history.slice(0, 5)
     }
 
     // console.log(totalIncome())
@@ -100,7 +100,8 @@ export const GlobalProvider = ({children}) => {
             totalExpenses,
             totalBalance, 
             transactionHistory,
-            error
+            error,
+            setError
         }}>
             {children}
         </GlobalContext.Provider>

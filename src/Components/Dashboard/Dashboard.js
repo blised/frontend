@@ -38,7 +38,7 @@ function Dashboard() {
                             </div>
                             <div className='balance'>
                                 <h2>Total Balance</h2>
-                                <p>
+                                <p style={{ color: totalBalance() >= 0 ? 'green' : 'red' }}>
                                     {dollar} {totalBalance()}
                                 </p>
                             </div>
@@ -87,6 +87,7 @@ const DashboardStyled = styled.div`
                 .income, .expense{
                     grid-column: span 2;
                 }
+
                 .income, .expense, .balance{
                     background: #FCF6F9;
                     border: 2px solid #FFFFFF;
@@ -144,6 +145,124 @@ const DashboardStyled = styled.div`
             }
         }
     }
+
+    @media (max-width: 768px) {
+        .stats-con{
+            grid-template-columns: repeat(3, 1fr); 
+            flex-direction: column;
+            .chart-con {
+                height: auto;
+                .amount-con {
+                    grid-template-columns: repeat(2, 1fr);
+                
+                    .income, .expense {
+                        grid-column: 1/4;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    .income, .expense, .balance {
+                        font-weight: 200;
+                        font-size: .75rem;
+                        p{
+                            font-size: 2.1rem;
+                        }
+                    }
+
+                    .balance{
+                        grid-column: 1 / -1;
+                    }
+                }
+            }
+            .history-con{
+                margin-top: 10rem;
+                grid-column: 1 / -1;
+            }
+                
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .stats-con{
+            grid-template-columns: repeat(3, 1fr); 
+            .chart-con{
+                .amount-con{
+                    height: auto;
+                    display: flex;
+                    .income, .expense{
+                        grid-column: 3/6;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    
+                    /* only text modify*/
+                    .income, .expense, .balance{
+                        align-items: center;
+                        font: center;
+                        font-size: 1.2 rem;
+                        font-weight: 200;
+                    }
+                    .income p, .expense p, .balance p{
+                        font-size: 1.3rem;
+                    }
+
+                    .balance{
+                        grid-column: 2 / 4;
+                    }
+                }
+            }
+
+        }
+    }
+
+    @media (max-width: 1350px) {
+        .stats-con{
+            grid-template-columns: repeat(4, 1fr); 
+            .chart-con{
+                .amount-con{
+                    .income, .expense{
+                        grid-column: 0 /-5;
+                    }   
+                    /* only text modify*/
+                    .income, .expense, .balance{
+                        font-size: 1.5 rem;
+                    }
+                    .income p, .expense p, .balance p{
+                        font-size: 1.8rem;
+                    }
+
+                    .balance{
+                        grid-column: 1 / -1;
+                    }
+                }
+            }
+
+            .history-con{
+                .salary-title{
+                    gap: 1rem;
+                    font-size: 1.4rem;
+                }
+                .salary-title span{
+                    font-size: 1.4rem;
+                }
+            }
+        }
+    }
+    
+    @media (max-width: 1450px){
+        .stats-cons{
+            .chart-con{
+                .balance{
+                    gap-bottom: 1rem;
+                }
+            }
+        }
+    }
+
 `;
 
 export default Dashboard;

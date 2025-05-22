@@ -75,6 +75,34 @@ const ExpenseStyled = styled.div`
         .expenses{
             flex: 1;}
     }
+
+    @media (max-width: 1350px) {
+        .expense-content{
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 0.1rem;
+            .expenses{
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1rem;
+            }
+        }
+    }
+
+    @media (max-width: 740px){
+        .expense-content {
+            grid-template-columns: 1fr;
+            .form-container{
+                margin-left: 0.5rem;
+                width: 100%;
+            }
+            .expenses {
+                margin-top: 1.5rem;
+                margin-left: 0;
+            }
+        }
+    }
+
 `;
 
 export default Expenses;

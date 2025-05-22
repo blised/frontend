@@ -1,11 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { useGlobalContext } from "../../context/globalContext";
+import { useWindowSize } from "../../utils/useWindowSize";
 
 function History() {
     const {transactionHistory} = useGlobalContext()
+    const {width} = useWindowSize()
 
-    const [...history] = transactionHistory()
+    // Decidimos cuántos items mostrar según el ancho
+    const maxItems = width < 900 ? 3 : 4;
+    const [...history] = transactionHistory().slice(0, maxItems);
+
+    // const [...history] = transactionHistory()
     return(
         <HistoryStyled>
             <h2>Recent History</h2>

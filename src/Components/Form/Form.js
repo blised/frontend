@@ -151,6 +151,11 @@ const FormStyled = styled.form`
             }
         }
     }
+    
+    @media (max-width: 1350px) {
+        padding: 0.2rem;
+
+    }
 `;
 
 export default Form;

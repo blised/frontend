@@ -74,6 +74,33 @@ const IncomeStyled = styled.div`
         .incomes{
             flex: 1;}
     }
+    
+    @media (max-width: 1350px) {
+        .income-content{
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 0.1rem;
+            .incomes{
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1rem;
+            }
+        }
+    }
+
+    @media (max-width: 740px){
+        .income-content {
+            grid-template-columns: 1fr;
+            .form-container{
+                margin-left: 0.5rem;
+                width: 100%;
+            }
+            .incomes {
+                margin-top: 1.5rem;
+                margin-left: 0;
+            }
+        }
+    }
 `;
 
 export default Income;
