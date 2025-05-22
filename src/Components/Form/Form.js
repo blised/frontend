@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,7 +8,9 @@ import { plus } from "../../utils/Icons";
 
 function Form(){
 
-    const {addIncome, getIncomes, error, setError} = useGlobalContext()
+    const {addIncome, getIncomes, updateIncome, 
+        incomeToEdit, selectIncomeToEdit, clearEdit, 
+        error, setError} = useGlobalContext()
 
     const [inputState, setInputState] = useState({
         title: '',
@@ -20,22 +22,53 @@ function Form(){
 
     const {title, amount, date, category, description} = inputState;
 
+    const isEditing = Boolean(incomeToEdit)
+    useEffect(() => {
+        if (isEditing)
+            setInputState({
+            title: incomeToEdit.title,
+            amount: incomeToEdit.amount,
+            date: new Date(incomeToEdit.date),
+            category: incomeToEdit.category,
+            description: incomeToEdit.description,
+        })
+        setError('')
+    }, [incomeToEdit])
+
     const handleInput = name => e => {
         setInputState({...inputState, [name]: e.target.value})
         setError('')
     }
 
     const handleSubmit = e => {
-        e.preventDefault()
-        addIncome(inputState)
+        e.preventDefault();
+
+        const payload = {
+            id: incomeToEdit._id,
+            title,
+            amount,
+            date,
+            category,
+            description
+        };
+
+        if (isEditing) {
+            updateIncome(payload);
+        } else {
+            addIncome({ title, amount, date, category, description });
+        }
+
+        // reseteo local del form
         setInputState({
             title: '',
             amount: '',
-            date: '',
+            date: null,
             category: '',
             description: '',
-        })
+        });
     }
+
+
 
     return(
         <FormStyled onSubmit={handleSubmit}>
@@ -90,7 +123,7 @@ function Form(){
 
             <div className="submit-btn">
                 <Button
-                    name={'Add Income'}
+                    name={isEditing ? 'Save Changes':'Add Income'}
                     icon={plus}
                     bPad={'.8rem 1.6rem'}
                     bRad={'30px'}

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,7 +8,9 @@ import { plus } from "../../utils/Icons";
 
 function ExpenseForm(){
 
-    const {addExpense, error, setError} = useGlobalContext()
+    const {addExpense, getExpenses, updateExpense,
+        expenseToEdit, selectExpenseToEdit, clearEdit,
+        error, setError} = useGlobalContext()
 
     const [inputState, setInputState] = useState({
         title: '',
@@ -20,6 +22,19 @@ function ExpenseForm(){
 
     const {title, amount, date, category, description} = inputState;
 
+    const isEditing = Boolean(expenseToEdit)
+    useEffect(() => {
+        if (isEditing)
+            setInputState({
+            title: expenseToEdit.title,
+            amount: expenseToEdit.amount,
+            date: new Date(expenseToEdit.date),
+            category: expenseToEdit.category,
+            description: expenseToEdit.description,
+        })
+        setError('')
+    }, [expenseToEdit])
+
     const handleInput = name => e => {
         setInputState({...inputState, [name]: e.target.value})
         setError('')
@@ -27,14 +42,27 @@ function ExpenseForm(){
 
     const handleSubmit = e => {
         e.preventDefault()
-        addExpense(inputState)
+
+        const payload = {
+            id: expenseToEdit._id,
+            title,
+            amount,
+            date,
+            category,
+            description
+        };
+        if (isEditing) {
+            updateExpense(payload);
+        } else {
+            addExpense({ title, amount, date, category, description });
+        }
         setInputState({
             title: '',
             amount: '',
-            date: '',
+            date: null,
             category: '',
             description: '',
-        })
+        });
     }
 
     return(
@@ -90,7 +118,7 @@ function ExpenseForm(){
 
             <div className="submit-btn">
                 <Button
-                    name={'Add Expense'}
+                    name={isEditing ? 'Save Changes':'Add Expense'}
                     icon={plus}
                     bPad={'.8rem 1.6rem'}
                     bRad={'30px'}

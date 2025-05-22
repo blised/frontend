@@ -7,7 +7,8 @@ import IncomeItem from '../IncomeItem/IncomeItem';
 import ExpenseForm from './ExpenseForm';
 
 function Expenses() {
-    const {addIncome, expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext()
+    const {addIncome, expenses, getExpenses, deleteExpense, 
+        selectExpenseToEdit, totalExpenses} = useGlobalContext()
 
     useEffect(() =>{
         getExpenses() 
@@ -37,6 +38,7 @@ function Expenses() {
                                 category={category}
                                 indicatorColor="var(--color-green)"
                                 deleteItem={deleteExpense}
+                                onEdit={() => selectExpenseToEdit(income)}
                             />
 
                         })}

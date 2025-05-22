@@ -15,7 +15,8 @@ function IncomeItem({
     description,
     deleteItem,
     indicatorColor,
-    type
+    type,
+    onEdit
 
 }){
 
@@ -74,7 +75,7 @@ function IncomeItem({
                 {type === 'expense' ? expenseCatIcon() : caterogyIcon()}
 
             </div>
-            <div className='content'>
+            <div className='content' onClick={onEdit} style={{cursor: 'pointer'}}>
                 <h5>{title}</h5>
                 <div className='inner-content'>
                     <div className='text'>

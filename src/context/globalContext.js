@@ -10,6 +10,8 @@ export const GlobalProvider = ({children}) => {
     const [incomes, setIncomes] = useState([])
     const [expenses, setExpenses] = useState([])
     const [error, setError] = useState(null)
+    const [incomeToEdit, setIncomeToEdit] = useState(null)
+    const [expenseToEdit, setExpenseToEdit] = useState(null)
 
     // calculate incomes
     const addIncome = async (income) => {
@@ -19,6 +21,27 @@ export const GlobalProvider = ({children}) => {
             })
         // It need to render after adding an income
         getIncomes()
+    }
+
+    const selectIncomeToEdit = (income) => {
+        setIncomeToEdit(income)
+        setError(null)
+    }
+
+    const clearEdit = () => {
+        setIncomeToEdit(null)
+        setExpenseToEdit(null)
+        setError(null)
+    }
+
+    const updateIncome = async incomeData => {
+        // call income by id
+        const { id, ...body} = incomeData;
+        await axios.patch(`${BASE_URL}update-income/${id}`, body)
+        // render after updating data
+        getIncomes()
+        // reset the edit state
+        clearEdit()
     }
 
     const getIncomes = async () => {
@@ -56,6 +79,21 @@ export const GlobalProvider = ({children}) => {
         console.log(response.data)
     }
 
+    const selectExpenseToEdit = (income) => {
+        setExpenseToEdit(income)
+        setError(null)
+    }
+
+    const updateExpense = async expenseData => {
+        // call income by id
+        const { id, ...body} = expenseData;
+        await axios.patch(`${BASE_URL}update-expense/${id}`, body)
+        // render after updating data
+        getExpenses()
+        // reset the edit state
+        clearEdit()
+    }
+
     const deleteExpense = async (id) => {
         const res  = await axios.delete(`${BASE_URL}delete-expense/${id}`)
         getExpenses()
@@ -90,11 +128,18 @@ export const GlobalProvider = ({children}) => {
         <GlobalContext.Provider value={{
             addIncome,
             getIncomes,
+            updateIncome,
+            incomeToEdit,
+            selectIncomeToEdit,
+            clearEdit,
             incomes,
             deleteIncome,
             totalIncome,
             expenses,
             addExpense,
+            updateExpense,
+            expenseToEdit,
+            selectExpenseToEdit,
             getExpenses,
             deleteExpense,
             totalExpenses,
